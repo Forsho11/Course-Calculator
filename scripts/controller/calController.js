@@ -7,7 +7,7 @@ class CalController {
         this._displayCalcEl = document.querySelector("#display");
         this._dateEl = document.querySelector("#data");
         this._timeEL = document.querySelector("#hora");
-        this.currentDate;
+        this._currentDate;
         this.initialize();
         this.initButtonsEvents();
 
@@ -37,11 +37,6 @@ class CalController {
 
     clearEntry(){
         this._operation.pop();
-    }
-
-    setError(){
-
-        this.displayCalc = "Error";
     }
 
     getLastOperation() {
@@ -95,6 +90,11 @@ class CalController {
         console.log(this._operation);
     }
 
+    setError(){
+
+        this.displayCalc = "Error";
+    }
+
     execBtn(value){
         
         switch(value) {
@@ -111,15 +111,15 @@ class CalController {
                 this.addOperation('+');
                 break;
 
-            case 'subtração':
+            case 'subtracao':
                 this.addOperation('-');
                 break;
 
-            case 'divisão':
+            case 'divisao':
                 this.addOperation('/');
                 break;
 
-            case 'multiplicação':
+            case 'multiplicacao':
                 this.addOperation('*');
                 break;
 
