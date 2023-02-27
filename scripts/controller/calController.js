@@ -44,6 +44,10 @@ class CalController {
         this.displayCalc = "Error";
     }
 
+    getLastOperation() {
+        this._operation[this._operation.length-1];
+    }
+
     addOperation(value){
 
         this._operation.push(value);
@@ -84,7 +88,8 @@ class CalController {
             case 'igual':
 
                 break;
-            
+            case 'ponto':
+                break;
             case '0':
             case '1':
             case '2':
