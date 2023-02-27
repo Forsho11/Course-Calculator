@@ -71,16 +71,24 @@ class CalController {
             }else if (isNaN(value)){
 
                 console.log(value);
+
             } else {
                 
                 this._operation.push(value);
             }
 
         } else {
-            //number
-            let newValue = this.getLastOperation().toString() + value.toString();
+            
+            if(this.isOperator(value)) {
 
-            this.setLastOperation(parseInt(newValue));
+                this._operation.push(value);
+
+            } else {
+
+                let newValue = this.getLastOperation().toString() + value.toString();
+                this.setLastOperation(parseInt(newValue));
+            }
+            
             
         }
 
