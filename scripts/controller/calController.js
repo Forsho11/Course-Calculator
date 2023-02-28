@@ -22,6 +22,8 @@ class CalController {
             this.setDisplayDateTime();
 
         }, 1000);
+
+        this.setLastNumberToDisplay();
     }
 
     addEventListenerAll(element, events, fn){
@@ -33,10 +35,14 @@ class CalController {
 
     clearall(){
         this._operation = [];
+
+        this.setLastNumberToDisplay();
     }
 
     clearEntry(){
         this._operation.pop();
+
+        this.setLastNumberToDisplay();
     }
 
     getLastOperation() {
@@ -59,8 +65,6 @@ class CalController {
 
         if(this._operation.length > 3) {
 
-            
-
             this.calc();
 
             console.log(this._operation);
@@ -69,11 +73,27 @@ class CalController {
 
     calc() {
 
-    let last = this._operation.pop();
-    
-    let result = eval(this._operation.join(""));
+        let last = '';
 
-    this._operation = [result, last];
+        if (this._operation.length > 3) {
+            last = this._operation.pop();
+        }
+
+        let result = eval(this._operation.join(""));
+
+        if (last == '%') {
+
+            result /= 100;
+
+            this._operation = [result];
+
+    } else {
+    
+            this._operation = [result];
+        
+            if (last) this._operation.push(last);
+
+        }
 
     this.setLastNumberToDisplay();
 
@@ -86,10 +106,15 @@ class CalController {
         for (let i = this._operation.length - 1; i >= 0; i--) {
 
             if (!this.isOperator(this._operation[i])) {
+
                 lastNumber = this._operation[i];
+
                 break;
             }
+
         }
+
+        if (!lastNumber) lastNumber = 0;
 
         this.displayCalc = lastNumber;
 
@@ -173,7 +198,7 @@ class CalController {
                 break;
 
             case 'igual':
-
+                this.calc();
                 break;
             case 'ponto':
                 this.addOperation('.');
