@@ -38,6 +38,8 @@ class CalController {
 
     clearall(){
         this._operation = [];
+        this._lastNumber = '';
+        this._lastOperator = '';
 
         this.setLastNumberToDisplay();
     }
@@ -70,14 +72,12 @@ class CalController {
 
             this.calc();
 
-            console.log(this._operation);
         }
     }
 
     getResult(){
 
         
-
         return eval(this._operation.join(""));
 
     }
@@ -164,7 +164,8 @@ class CalController {
 
     }
 
-    addOperation(value) {
+    addOperation(value){
+
 
         if (isNaN(this.getLastOperation())) {
 
@@ -172,41 +173,55 @@ class CalController {
 
                 this.setLastOperation(value);
 
-            }else if (isNaN(value)){
-
-                // console.log(value);
-
             } else {
-                
+
                 this.pushOperation(value);
 
-                this.setLastNumberToDisplay()
+                this.setLastNumberToDisplay();
 
             }
 
         } else {
-            
-            if(this.isOperator(value)) {
+
+            if (this.isOperator(value)){
 
                 this.pushOperation(value);
 
             } else {
 
                 let newValue = this.getLastOperation().toString() + value.toString();
-                this.setLastOperation(parseInt(newValue));
 
-                this.setLastNumberToDisplay()
+                this.setLastOperation(parseFloat(newValue));
+
+                this.setLastNumberToDisplay();
+
             }
-            
-            
+
         }
 
-        // console.log(this._operation);
     }
 
     setError(){
 
         this.displayCalc = "Error";
+    }
+
+    addDot(){
+
+        let lastOperation = this.getLastOperation();
+
+        if (this.isOperator(lastOperation) || !lastOperation) {
+
+            this.pushOperation('0.');
+
+        } else {
+
+            this.setLastOperation(lastOperation.toString() + '.');
+
+        }
+
+        this.setLastNumberToDisplay();
+        
     }
 
     execBtn(value){
@@ -246,7 +261,7 @@ class CalController {
                 break;
 
             case 'ponto':
-                this.addOperation('.');
+                this.addDot();
                 break;
 
             case '0':
